@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">AdaptivePage</string>
+    <string name="accept">OK</string>
+    <string name="cancel">cancel</string>
+    <string name="add_amount">adding money</string>
+    <string name="transport">transport</string>
+    <string name="nutrition">nutrition</string>
+    <string name="purchases">purchases</string>
+    <string name="recreation">recreation</string>
+    <string name="real_estate">real estate</string>
+</resources>

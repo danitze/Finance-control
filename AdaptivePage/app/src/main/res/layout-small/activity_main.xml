@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/amountText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="122340" />
+
+    <TextView
+        android:id="@+id/purchasesText"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:background="@drawable/circle_textview"
+        android:gravity="center"
+        android:text="@string/purchases"
+        android:textAlignment="center"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toTopOf="@+id/amountText"
+        app:layout_constraintEnd_toStartOf="@+id/nutritionText"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/recreationText"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:background="@drawable/circle_textview"
+        android:gravity="center"
+        android:text="@string/recreation"
+        android:textAlignment="center"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/realEstateText"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/amountText" />
+
+    <TextView
+        android:id="@+id/nutritionText"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:background="@drawable/circle_textview"
+        android:gravity="center"
+        android:text="@string/nutrition"
+        android:textAlignment="center"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toTopOf="@+id/amountText"
+        app:layout_constraintEnd_toStartOf="@+id/transportText"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/purchasesText"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/transportText"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:background="@drawable/circle_textview"
+        android:gravity="center"
+        android:text="@string/transport"
+        android:textAlignment="center"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toTopOf="@+id/amountText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/nutritionText"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/realEstateText"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:background="@drawable/circle_textview"
+        android:gravity="center"
+        android:text="@string/real_estate"
+        android:textAlignment="center"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/recreationText"
+        app:layout_constraintTop_toBottomOf="@+id/amountText" />
+</androidx.constraintlayout.widget.ConstraintLayout>
