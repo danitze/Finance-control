@@ -23,6 +23,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    final int numberOfForms = 6;
+
     final int AMOUNT_ID = 0;
     final int TRANSPORT_ID = 1;
     final int NUTRITION_ID = 2;
@@ -31,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     final int REAL_ESTATE_ID = 5;
 
     final String[] fileNames = new String[] {"Amount", "Transport", "Nutrition", "Purchases", "Recreation", "Real_estate"};
-    int[] values = new int[6];
+    int[] values = new int[numberOfForms];
     TextView[] textViews;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +41,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         textViews = new TextView[] {findViewById(R.id.amountText), findViewById(R.id.transportText), findViewById(R.id.nutritionText), findViewById(R.id.purchasesText), findViewById(R.id.recreationText), findViewById(R.id.realEstateText)};
-        textViews[AMOUNT_ID] = (TextView) findViewById(R.id.amountText);
-        getData(AMOUNT_ID);
-        textViews[AMOUNT_ID].setText(String.valueOf(values[AMOUNT_ID]));
-        textViews[AMOUNT_ID].setOnClickListener(this);
+        setScreenNumbers();
     }
 
     @Override
@@ -54,6 +53,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.transportText:
                 dialog = onCreateDialog(TRANSPORT_ID);
+                break;
+            case R.id.nutritionText:
+                dialog = onCreateDialog(NUTRITION_ID);
+                break;
+            case R.id.purchasesText:
+                dialog = onCreateDialog(PURCHASES_ID);
+                break;
+            case R.id.recreationText:
+                dialog = onCreateDialog(RECREATION_ID);
+                break;
+            case R.id.realEstateText:
+                dialog = onCreateDialog(REAL_ESTATE_ID);
+                break;
         }
         dialog.show();
     }
@@ -116,6 +128,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             values[id] = 0;
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void setScreenNumbers() {
+        for(int i = 0; i < numberOfForms; i++) {
+            getData(i);
+            textViews[i].setText(textViews[i].getText().toString() + '\n' + String.valueOf(values[i]));
+            textViews[i].setOnClickListener(this);
         }
     }
 }
