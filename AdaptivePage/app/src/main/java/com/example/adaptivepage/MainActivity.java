@@ -19,8 +19,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.text.DecimalFormat;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    DecimalFormat decimalFormat = new DecimalFormat("#.##");
+
     final int numberOfForms = 6;
 
     final int AMOUNT_ID = 0;
@@ -33,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     final String[] fileNames = new String[] {"Amount", "Transport", "Nutrition", "Purchases", "Recreation", "Real_estate"};
     final int[] titles = new int[] {R.string.add_amount, R.string.spend_on_transport, R.string.spend_on_nutrition, R.string.spend_on_purchases, R.string.spend_on_recreation, R.string.spend_on_real_estate};
     final int[] formNames = new int[] {R.string.amount, R.string.transport, R.string.nutrition, R.string.purchases, R.string.recreation, R.string.real_estate};
-    int[] values = new int[numberOfForms];
+    double[] values = new double[numberOfForms];
     TextView[] textViews;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         textViews = new TextView[] {findViewById(R.id.amountText), findViewById(R.id.transportText), findViewById(R.id.nutritionText), findViewById(R.id.purchasesText), findViewById(R.id.recreationText), findViewById(R.id.realEstateText)};
         setScreenNumbers();
+        System.out.println(getFilesDir());
     }
 
     @Override
@@ -84,8 +88,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             EditText addAmountEditText = (EditText) dialog.findViewById(R.id.spendAmountEditText);
                             if ((addAmountEditText.getText() == null)) {
                                 Toast.makeText(MainActivity.this, R.string.null_edit_text_error, Toast.LENGTH_LONG).show();
-                            } else {
-                                values[AMOUNT_ID] += Integer.parseInt(addAmountEditText.getText().toString());
+                            }
+                            else if(notExpectedSumFormat(Double.parseDouble(addAmountEditText.getText().toString()))) {
+                                Toast.makeText(MainActivity.this, R.string.wrong_money_sum, Toast.LENGTH_LONG).show();
+                            }
+                            else {
+                                values[AMOUNT_ID] += Double.parseDouble(addAmountEditText.getText().toString());
                                 textViews[AMOUNT_ID].setText(String.valueOf(values[AMOUNT_ID]));
                                 saveData(AMOUNT_ID);
                             }
@@ -103,14 +111,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             if(spendAmountEditText.getText() == null) {
                                 Toast.makeText(MainActivity.this, R.string.null_edit_text_error, Toast.LENGTH_LONG).show();
                             }
-                            else if(values[AMOUNT_ID] < Integer.parseInt(spendAmountEditText.getText().toString())) {
+                            else if(values[AMOUNT_ID] < Double.parseDouble(spendAmountEditText.getText().toString())) {
                                 Toast.makeText(MainActivity.this, R.string.lack_of_money_error, Toast.LENGTH_LONG).show();
                             }
+                            else if(notExpectedSumFormat(Double.parseDouble(spendAmountEditText.getText().toString()))) {
+                                Toast.makeText(MainActivity.this, R.string.wrong_money_sum, Toast.LENGTH_LONG).show();
+                            }
                             else {
-                                values[formId] += Integer.parseInt(spendAmountEditText.getText().toString());
+                                values[formId] += Double.parseDouble(spendAmountEditText.getText().toString());
                                 values[AMOUNT_ID] -= values[formId];
                                 textViews[formId].setText(getString(formNames[formId], values[formId]));
                                 textViews[AMOUNT_ID].setText(String.valueOf(values[AMOUNT_ID]));
+                                saveData(formId);
+                                saveData(AMOUNT_ID);
                             }
                         }
                     });
@@ -127,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void saveData(int id) {
         try {
             BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(openFileOutput(fileNames[id], MODE_PRIVATE)));
-            bufferedWriter.write(values[id]);
+            bufferedWriter.write(String.valueOf(values[id]));
             bufferedWriter.close();
         } catch (FileNotFoundException e) {
             new File(fileNames[id]);
@@ -141,10 +154,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void getData(int id) {
         try {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(openFileInput(fileNames[id])));
-            values[id] = bufferedReader.read();
+            values[id] = Double.parseDouble(bufferedReader.readLine());
         } catch (FileNotFoundException e) {
             new File(fileNames[id]);
             values[id] = 0;
+            saveData(id);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -153,8 +167,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void setScreenNumbers() {
         for(int i = 0; i < numberOfForms; i++) {
             getData(i);
-            textViews[i].setText(getString(formNames[i], values[i]));
+            textViews[i].setText(getString(formNames[i], decimalFormat.format(values[i])));
             textViews[i].setOnClickListener(this);
         }
+    }
+
+    public boolean notExpectedSumFormat(double sum) {
+        int sumComparator = (int)(sum * 100);
+        return sumComparator % 10 != 0 && sumComparator % 25 != 0;
     }
 }

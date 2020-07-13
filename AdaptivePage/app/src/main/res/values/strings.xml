@@ -8,15 +8,16 @@
     <string name="spend_on_purchases">spending on purchases</string>
     <string name="spend_on_recreation">spending on recreation</string>
     <string name="spend_on_real_estate">spending on real estate</string>
-    <string name="amount">%1$d</string>
-    <string name="transport">transport\n%1$d</string>
-    <string name="nutrition">nutrition\n%1$d</string>
-    <string name="purchases">purchases\n%1$d</string>
-    <string name="recreation">recreation\n%1$d</string>
-    <string name="real_estate">real estate\n%1$d</string>
+    <string name="amount">%1$s</string>
+    <string name="transport">transport\n%1$s</string>
+    <string name="nutrition">nutrition\n%1$s</string>
+    <string name="purchases">purchases\n%1$s</string>
+    <string name="recreation">recreation\n%1$s</string>
+    <string name="real_estate">real estate\n%1$s</string>
     <string name="money_source">money source</string>
     <string name="money_target">money target</string>
     <string name="money_amount">money amount</string>
     <string name="null_edit_text_error">enter an amount of money</string>
     <string name="lack_of_money_error">you do not have enough money</string>
+    <string name="wrong_money_sum">wrong money sum</string>
 </resources>
