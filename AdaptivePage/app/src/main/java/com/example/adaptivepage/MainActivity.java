@@ -19,11 +19,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.DecimalFormat;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     DecimalFormat decimalFormat = new DecimalFormat("#.##");
-
     final int numberOfForms = 6;
 
     final int AMOUNT_ID = 0;
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     final String[] fileNames = new String[] {"Amount", "Transport", "Nutrition", "Purchases", "Recreation", "Real_estate"};
     final int[] titles = new int[] {R.string.add_amount, R.string.spend_on_transport, R.string.spend_on_nutrition, R.string.spend_on_purchases, R.string.spend_on_recreation, R.string.spend_on_real_estate};
     final int[] formNames = new int[] {R.string.amount, R.string.transport, R.string.nutrition, R.string.purchases, R.string.recreation, R.string.real_estate};
-    double[] values = new double[numberOfForms];
+    BigDecimal[] values = new BigDecimal[numberOfForms];
     TextView[] textViews;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,12 +90,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             if ((addAmountEditText.getText() == null)) {
                                 Toast.makeText(MainActivity.this, R.string.null_edit_text_error, Toast.LENGTH_LONG).show();
                             }
-                            else if(notExpectedSumFormat(Double.parseDouble(addAmountEditText.getText().toString()))) {
+                            else if(notExpectedSumFormat(new BigDecimal(addAmountEditText.getText().toString()))) {
                                 Toast.makeText(MainActivity.this, R.string.wrong_money_sum, Toast.LENGTH_LONG).show();
                             }
                             else {
-                                values[AMOUNT_ID] += Double.parseDouble(addAmountEditText.getText().toString());
-                                textViews[AMOUNT_ID].setText(String.valueOf(values[AMOUNT_ID]));
+                                values[AMOUNT_ID] = values[AMOUNT_ID].add(new BigDecimal(addAmountEditText.getText().toString()));
+                                textViews[AMOUNT_ID].setText(String.valueOf(decimalFormat.format(values[AMOUNT_ID])));
                                 saveData(AMOUNT_ID);
                             }
                         }
@@ -111,17 +112,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             if(spendAmountEditText.getText() == null) {
                                 Toast.makeText(MainActivity.this, R.string.null_edit_text_error, Toast.LENGTH_LONG).show();
                             }
-                            else if(values[AMOUNT_ID] < Double.parseDouble(spendAmountEditText.getText().toString())) {
+                            else if(values[AMOUNT_ID].compareTo(new BigDecimal(spendAmountEditText.getText().toString())) == -1) {
                                 Toast.makeText(MainActivity.this, R.string.lack_of_money_error, Toast.LENGTH_LONG).show();
                             }
-                            else if(notExpectedSumFormat(Double.parseDouble(spendAmountEditText.getText().toString()))) {
+                            else if(notExpectedSumFormat(new BigDecimal(spendAmountEditText.getText().toString()))) {
                                 Toast.makeText(MainActivity.this, R.string.wrong_money_sum, Toast.LENGTH_LONG).show();
                             }
                             else {
-                                values[formId] += Double.parseDouble(spendAmountEditText.getText().toString());
-                                values[AMOUNT_ID] -= values[formId];
-                                textViews[formId].setText(getString(formNames[formId], values[formId]));
-                                textViews[AMOUNT_ID].setText(String.valueOf(values[AMOUNT_ID]));
+                                values[formId] = values[formId].add(new BigDecimal(spendAmountEditText.getText().toString()));
+                                values[AMOUNT_ID] = values[AMOUNT_ID].subtract(values[formId]);
+                                textViews[formId].setText(getString(formNames[formId], decimalFormat.format(values[formId])));
+                                textViews[AMOUNT_ID].setText(String.valueOf(decimalFormat.format(values[AMOUNT_ID])));
                                 saveData(formId);
                                 saveData(AMOUNT_ID);
                             }
@@ -154,10 +155,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void getData(int id) {
         try {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(openFileInput(fileNames[id])));
-            values[id] = Double.parseDouble(bufferedReader.readLine());
+            values[id] = new BigDecimal(bufferedReader.readLine());
         } catch (FileNotFoundException e) {
             new File(fileNames[id]);
-            values[id] = 0;
+            values[id] = new BigDecimal(0);
             saveData(id);
         } catch (IOException e) {
             e.printStackTrace();
@@ -172,8 +173,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    public boolean notExpectedSumFormat(double sum) {
-        int sumComparator = (int)(sum * 100);
-        return sumComparator % 10 != 0 && sumComparator % 25 != 0;
+    public boolean notExpectedSumFormat(BigDecimal sum) {
+        BigInteger bigInteger = sum.divide(BigDecimal.valueOf(0.01)).toBigInteger();
+        if(bigInteger.mod(BigInteger.valueOf(5)).compareTo(BigInteger.valueOf(0)) == 0) {
+            if(bigInteger.mod(BigInteger.valueOf(100)).compareTo(BigInteger.valueOf(5)) != 0 && bigInteger.mod(BigInteger.valueOf(100)).compareTo(BigInteger.valueOf(15)) != 0)
+                return false;
+        }
+        return true;
     }
 }
