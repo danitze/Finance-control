@@ -4,7 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,11 +42,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     final int[] formNames = new int[] {R.string.amount, R.string.transport, R.string.nutrition, R.string.purchases, R.string.recreation, R.string.real_estate};
     BigDecimal[] values = new BigDecimal[numberOfForms];
     TextView[] textViews;
+
+    DBHelper dbHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        dbHelper = new DBHelper(this);
         textViews = new TextView[] {findViewById(R.id.amountText), findViewById(R.id.transportText), findViewById(R.id.nutritionText), findViewById(R.id.purchasesText), findViewById(R.id.recreationText), findViewById(R.id.realEstateText)};
         setScreenNumbers();
         System.out.println(getFilesDir());
@@ -51,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+        checkDb();
         Dialog dialog = null;
         switch (view.getId()) {
             case R.id.amountText:
@@ -77,59 +84,56 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected Dialog onCreateDialog(int id) {
+        final int formId = id;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(titles[id]);
         LayoutInflater inflater = this.getLayoutInflater();
-        if(id == AMOUNT_ID) {
-            builder.setView(inflater.inflate(R.layout.amount_add_dialog, null))
-                    .setPositiveButton(R.string.accept, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            Dialog dialog = (Dialog) dialogInterface;
-                            EditText addAmountEditText = (EditText) dialog.findViewById(R.id.spendAmountEditText);
-                            if ((addAmountEditText.getText() == null)) {
-                                Toast.makeText(MainActivity.this, R.string.null_edit_text_error, Toast.LENGTH_LONG).show();
-                            }
-                            else if(notExpectedSumFormat(new BigDecimal(addAmountEditText.getText().toString()))) {
-                                Toast.makeText(MainActivity.this, R.string.wrong_money_sum, Toast.LENGTH_LONG).show();
-                            }
-                            else {
-                                values[AMOUNT_ID] = values[AMOUNT_ID].add(new BigDecimal(addAmountEditText.getText().toString()));
-                                textViews[AMOUNT_ID].setText(String.valueOf(decimalFormat.format(values[AMOUNT_ID])));
-                                saveData(AMOUNT_ID);
-                            }
+        builder.setView(inflater.inflate(R.layout.amount_transaction_dialog, null))
+                .setPositiveButton(R.string.accept, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        SQLiteDatabase transactionsDb = dbHelper.getWritableDatabase();
+                        ContentValues contentValues = new ContentValues();
+                        Dialog dialog = (Dialog) dialogInterface;
+                        EditText descriptionEditText = (EditText) dialog.findViewById(R.id.descriptionEditText);
+                        EditText amountEditText = (EditText) dialog.findViewById(R.id.amountEditText);
+                        if (amountEditText.getText().toString().equals("") || descriptionEditText.getText().toString().equals("")) {
+                            Toast.makeText(MainActivity.this, R.string.null_edit_text_error, Toast.LENGTH_LONG).show();
                         }
-                    });
-        }
-        else {
-            final int formId = id;
-            builder.setView(inflater.inflate(R.layout.amount_spend_dialog, null))
-                    .setPositiveButton(R.string.accept, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            Dialog dialog = (Dialog) dialogInterface;
-                            EditText spendAmountEditText = dialog.findViewById(R.id.spendAmountEditText);
-                            if(spendAmountEditText.getText() == null) {
-                                Toast.makeText(MainActivity.this, R.string.null_edit_text_error, Toast.LENGTH_LONG).show();
-                            }
-                            else if(values[AMOUNT_ID].compareTo(new BigDecimal(spendAmountEditText.getText().toString())) == -1) {
-                                Toast.makeText(MainActivity.this, R.string.lack_of_money_error, Toast.LENGTH_LONG).show();
-                            }
-                            else if(notExpectedSumFormat(new BigDecimal(spendAmountEditText.getText().toString()))) {
-                                Toast.makeText(MainActivity.this, R.string.wrong_money_sum, Toast.LENGTH_LONG).show();
-                            }
-                            else {
-                                values[formId] = values[formId].add(new BigDecimal(spendAmountEditText.getText().toString()));
-                                values[AMOUNT_ID] = values[AMOUNT_ID].subtract(values[formId]);
-                                textViews[formId].setText(getString(formNames[formId], decimalFormat.format(values[formId])));
-                                textViews[AMOUNT_ID].setText(String.valueOf(decimalFormat.format(values[AMOUNT_ID])));
-                                saveData(formId);
-                                saveData(AMOUNT_ID);
-                            }
+                        else if(notExpectedSumFormat(new BigDecimal(amountEditText.getText().toString()))) {
+                            Toast.makeText(MainActivity.this, R.string.wrong_money_sum, Toast.LENGTH_LONG).show();
                         }
-                    });
-        }
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        else {
+                           if(formId == AMOUNT_ID) {
+                               values[AMOUNT_ID] = values[AMOUNT_ID].add(new BigDecimal(amountEditText.getText().toString()));
+                               textViews[AMOUNT_ID].setText(String.valueOf(decimalFormat.format(values[AMOUNT_ID])));
+                               saveData(AMOUNT_ID);
+                               contentValues.put(DBHelper.KEY_DATE, System.currentTimeMillis() / 1000L);
+                               contentValues.put(DBHelper.KEY_OPERATION_AMOUNT, amountEditText.getText().toString());
+                               contentValues.put(DBHelper.KEY_OPERATION_DESCRIPTION, descriptionEditText.getText().toString());
+                               transactionsDb.insert(DBHelper.TABLE_NAME, null, contentValues);
+                           }
+                           else {
+                               if(values[AMOUNT_ID].compareTo(new BigDecimal(amountEditText.getText().toString())) == -1) {
+                                   Toast.makeText(MainActivity.this, R.string.lack_of_money_error, Toast.LENGTH_LONG).show();
+                               }
+                               else {
+                                   values[formId] = values[formId].add(new BigDecimal(amountEditText.getText().toString()));
+                                   values[AMOUNT_ID] = values[AMOUNT_ID].subtract(values[formId]);
+                                   textViews[formId].setText(getString(formNames[formId], decimalFormat.format(values[formId])));
+                                   textViews[AMOUNT_ID].setText(String.valueOf(decimalFormat.format(values[AMOUNT_ID])));
+                                   saveData(formId);
+                                   saveData(AMOUNT_ID);
+                                   contentValues.put(DBHelper.KEY_DATE, System.currentTimeMillis() / 1000L);
+                                   contentValues.put(DBHelper.KEY_OPERATION_AMOUNT, "-" + amountEditText.getText().toString());
+                                   contentValues.put(DBHelper.KEY_OPERATION_DESCRIPTION, descriptionEditText.getText().toString());
+                                   transactionsDb.insert(DBHelper.TABLE_NAME, null, contentValues);
+                               }
+                           }
+                        }
+                    }
+                })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
@@ -176,9 +180,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean notExpectedSumFormat(BigDecimal sum) {
         BigInteger bigInteger = sum.divide(BigDecimal.valueOf(0.01)).toBigInteger();
         if(bigInteger.mod(BigInteger.valueOf(5)).compareTo(BigInteger.valueOf(0)) == 0) {
-            if(bigInteger.mod(BigInteger.valueOf(100)).compareTo(BigInteger.valueOf(5)) != 0 && bigInteger.mod(BigInteger.valueOf(100)).compareTo(BigInteger.valueOf(15)) != 0)
-                return false;
+            return bigInteger.mod(BigInteger.valueOf(100)).compareTo(BigInteger.valueOf(5)) == 0 || bigInteger.mod(BigInteger.valueOf(100)).compareTo(BigInteger.valueOf(15)) == 0;
         }
         return true;
+    }
+
+    public void checkDb() {
+        SQLiteDatabase transactionsDb = dbHelper.getWritableDatabase();
+        Cursor cursor = transactionsDb.query(DBHelper.TABLE_NAME, null, null, null, null, null, null);
+        if(cursor.moveToFirst()) {
+            int dateIndex = cursor.getColumnIndex(DBHelper.KEY_DATE);
+            int amountIndex = cursor.getColumnIndex(DBHelper.KEY_OPERATION_AMOUNT);
+            int descriptionIndex = cursor.getColumnIndex(DBHelper.KEY_OPERATION_DESCRIPTION);
+            do {
+                System.out.println(cursor.getInt(dateIndex) + " " + cursor.getString(amountIndex) + " " + cursor.getString(descriptionIndex));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
     }
 }

@@ -14,10 +14,9 @@
     <string name="purchases">purchases\n%1$s</string>
     <string name="recreation">recreation\n%1$s</string>
     <string name="real_estate">real estate\n%1$s</string>
-    <string name="money_source">money source</string>
-    <string name="money_target">money target</string>
+    <string name="money_description">money description</string>
     <string name="money_amount">money amount</string>
-    <string name="null_edit_text_error">enter an amount of money</string>
+    <string name="null_edit_text_error">amount or description is empty</string>
     <string name="lack_of_money_error">you do not have enough money</string>
     <string name="wrong_money_sum">wrong money sum</string>
 </resources>
