@@ -19,4 +19,5 @@
     <string name="null_edit_text_error">amount or description is empty</string>
     <string name="lack_of_money_error">you do not have enough money</string>
     <string name="wrong_money_sum">wrong money sum</string>
+    <string name="transactions">transactions</string>
 </resources>

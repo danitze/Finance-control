@@ -10,10 +10,13 @@
         android:id="@+id/amountText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="75dp"
+        android:layout_marginEnd="17dp"
         android:text="@string/amount"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/transactionsButton"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -67,12 +70,14 @@
         android:id="@+id/transportText"
         android:layout_width="45dp"
         android:layout_height="45dp"
+        android:layout_marginTop="19dp"
+        android:layout_marginBottom="5dp"
         android:background="@drawable/circle_textview"
         android:gravity="center"
         android:text="@string/transport"
         android:textAlignment="center"
         android:textSize="10sp"
-        app:layout_constraintBottom_toTopOf="@+id/amountText"
+        app:layout_constraintBottom_toTopOf="@+id/transactionsButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/nutritionText"
@@ -92,4 +97,16 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/recreationText"
         app:layout_constraintTop_toBottomOf="@+id/amountText" />
+
+    <Button
+        android:id="@+id/transactionsButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="70dp"
+        android:text="@string/transactions"
+        android:textSize="8sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/amountText"
+        app:layout_constraintTop_toBottomOf="@+id/transportText" />
 </androidx.constraintlayout.widget.ConstraintLayout>

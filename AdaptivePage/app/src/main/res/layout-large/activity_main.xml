@@ -10,18 +10,21 @@
         android:id="@+id/amountText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="454dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="146dp"
         android:text="@string/amount"
         android:textSize="40sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/realEstateText"
+        app:layout_constraintEnd_toEndOf="@+id/nutritionText"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/purchasesText"
-        android:layout_width="160dp"
+        android:layout_width="0dp"
         android:layout_height="160dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
         android:background="@drawable/circle_textview"
         android:gravity="center"
         android:text="@string/purchases"
@@ -29,14 +32,15 @@
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/amountText"
         app:layout_constraintEnd_toStartOf="@+id/nutritionText"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/recreationText"
-        android:layout_width="160dp"
+        android:layout_width="0dp"
         android:layout_height="160dp"
+        android:layout_marginStart="94dp"
+        android:layout_marginEnd="93dp"
         android:background="@drawable/circle_textview"
         android:gravity="center"
         android:text="@string/recreation"
@@ -44,14 +48,14 @@
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/realEstateText"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/amountText" />
 
     <TextView
         android:id="@+id/nutritionText"
-        android:layout_width="160dp"
+        android:layout_width="0dp"
         android:layout_height="160dp"
+        android:layout_marginEnd="30dp"
         android:background="@drawable/circle_textview"
         android:gravity="center"
         android:text="@string/nutrition"
@@ -59,14 +63,14 @@
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/amountText"
         app:layout_constraintEnd_toStartOf="@+id/transportText"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/purchasesText"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/transportText"
-        android:layout_width="160dp"
+        android:layout_width="0dp"
         android:layout_height="160dp"
+        android:layout_marginEnd="30dp"
         android:background="@drawable/circle_textview"
         android:gravity="center"
         android:text="@string/transport"
@@ -74,14 +78,15 @@
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/amountText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/nutritionText"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/realEstateText"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="93dp"
+        android:layout_marginBottom="146dp"
         android:background="@drawable/circle_textview"
         android:gravity="center"
         android:text="@string/real_estate"
@@ -89,7 +94,16 @@
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/recreationText"
         app:layout_constraintTop_toBottomOf="@+id/amountText" />
+
+    <Button
+        android:id="@+id/transactionsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/transactions"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/realEstateText"
+        app:layout_constraintStart_toStartOf="@+id/realEstateText"
+        app:layout_constraintTop_toBottomOf="@+id/realEstateText" />
 </androidx.constraintlayout.widget.ConstraintLayout>

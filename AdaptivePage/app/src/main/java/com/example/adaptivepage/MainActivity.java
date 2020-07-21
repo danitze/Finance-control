@@ -6,11 +6,13 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,10 +47,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     DBHelper dbHelper;
 
+    Button transactionsButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        transactionsButton = (Button) findViewById(R.id.transactionsButton);
+        transactionsButton.setOnClickListener(this);
         dbHelper = new DBHelper(this);
         textViews = new TextView[] {findViewById(R.id.amountText), findViewById(R.id.transportText), findViewById(R.id.nutritionText), findViewById(R.id.purchasesText), findViewById(R.id.recreationText), findViewById(R.id.realEstateText)};
         setScreenNumbers();
@@ -57,29 +63,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        checkDb();
         Dialog dialog = null;
         switch (view.getId()) {
             case R.id.amountText:
                 dialog = onCreateDialog(AMOUNT_ID);
+                dialog.show();
                 break;
             case R.id.transportText:
                 dialog = onCreateDialog(TRANSPORT_ID);
+                dialog.show();
                 break;
             case R.id.nutritionText:
                 dialog = onCreateDialog(NUTRITION_ID);
+                dialog.show();
                 break;
             case R.id.purchasesText:
                 dialog = onCreateDialog(PURCHASES_ID);
+                dialog.show();
                 break;
             case R.id.recreationText:
                 dialog = onCreateDialog(RECREATION_ID);
+                dialog.show();
                 break;
             case R.id.realEstateText:
                 dialog = onCreateDialog(REAL_ESTATE_ID);
+                dialog.show();
+                break;
+            case R.id.transactionsButton:
+                Intent intent = new Intent(this, TransactionsHistoryActivity.class);
+                startActivity(intent);
                 break;
         }
-        dialog.show();
     }
 
     @Override
@@ -119,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                }
                                else {
                                    values[formId] = values[formId].add(new BigDecimal(amountEditText.getText().toString()));
-                                   values[AMOUNT_ID] = values[AMOUNT_ID].subtract(values[formId]);
+                                   values[AMOUNT_ID] = values[AMOUNT_ID].subtract(new BigDecimal(amountEditText.getText().toString()));
                                    textViews[formId].setText(getString(formNames[formId], decimalFormat.format(values[formId])));
                                    textViews[AMOUNT_ID].setText(String.valueOf(decimalFormat.format(values[AMOUNT_ID])));
                                    saveData(formId);

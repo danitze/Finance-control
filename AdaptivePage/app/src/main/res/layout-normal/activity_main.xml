@@ -20,15 +20,17 @@
 
     <TextView
         android:id="@+id/purchasesText"
-        android:layout_width="120dp"
+        android:layout_width="0dp"
         android:layout_height="120dp"
+        android:layout_marginStart="13dp"
+        android:layout_marginEnd="146dp"
         android:background="@drawable/circle_textview"
         android:gravity="center"
         android:text="@string/purchases"
         android:textAlignment="center"
         android:textSize="22sp"
         app:layout_constraintBottom_toTopOf="@+id/amountText"
-        app:layout_constraintEnd_toStartOf="@+id/nutritionText"
+        app:layout_constraintEnd_toStartOf="@+id/transportText"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -65,8 +67,9 @@
 
     <TextView
         android:id="@+id/transportText"
-        android:layout_width="120dp"
+        android:layout_width="0dp"
         android:layout_height="120dp"
+        android:layout_marginEnd="12dp"
         android:background="@drawable/circle_textview"
         android:gravity="center"
         android:text="@string/transport"
@@ -74,8 +77,7 @@
         android:textSize="22sp"
         app:layout_constraintBottom_toTopOf="@+id/amountText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/nutritionText"
+        app:layout_constraintStart_toEndOf="@+id/purchasesText"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -92,4 +94,14 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/recreationText"
         app:layout_constraintTop_toBottomOf="@+id/amountText" />
+
+    <Button
+        android:id="@+id/transactionsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="57dp"
+        android:text="@string/transactions"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recreationText" />
 </androidx.constraintlayout.widget.ConstraintLayout>

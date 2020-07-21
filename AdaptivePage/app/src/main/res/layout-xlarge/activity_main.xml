@@ -20,15 +20,17 @@
 
     <TextView
         android:id="@+id/purchasesText"
-        android:layout_width="200dp"
+        android:layout_width="0dp"
         android:layout_height="200dp"
+        android:layout_marginStart="42dp"
+        android:layout_marginEnd="284dp"
         android:background="@drawable/circle_textview"
         android:gravity="center"
         android:text="@string/purchases"
         android:textAlignment="center"
         android:textSize="35sp"
         app:layout_constraintBottom_toTopOf="@+id/amountText"
-        app:layout_constraintEnd_toStartOf="@+id/nutritionText"
+        app:layout_constraintEnd_toStartOf="@+id/transportText"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -67,6 +69,7 @@
         android:id="@+id/transportText"
         android:layout_width="200dp"
         android:layout_height="200dp"
+        android:layout_marginEnd="42dp"
         android:background="@drawable/circle_textview"
         android:gravity="center"
         android:text="@string/transport"
@@ -74,8 +77,7 @@
         android:textSize="35sp"
         app:layout_constraintBottom_toTopOf="@+id/amountText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/nutritionText"
+        app:layout_constraintStart_toEndOf="@+id/purchasesText"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -92,4 +94,14 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/recreationText"
         app:layout_constraintTop_toBottomOf="@+id/amountText" />
+
+    <Button
+        android:id="@+id/transactionsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="34dp"
+        android:text="@string/transactions"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/realEstateText"
+        app:layout_constraintTop_toBottomOf="@+id/realEstateText" />
 </androidx.constraintlayout.widget.ConstraintLayout>
