@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/transactionAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        android:textSize="30sp"
+        android:text="@string/transaction_text"/>
+
+    <TextView
+        android:id="@+id/transactionDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/transactionAmount"
+        android:textSize="22sp"
+        android:layout_margin="8dp"
+        android:text="@string/description_text"/>
+
+    <RelativeLayout
+        android:id="@+id/transactionDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="horizontal"
+        android:layout_below="@id/transactionDescription">
+
+        <TextView
+            android:id="@+id/dateText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:layout_alignParentStart="true"
+            android:text="@string/date_text"/>
+
+        <TextView
+            android:id="@+id/dateValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:textSize="22sp"
+            android:layout_alignParentEnd="true"
+            android:text="@string/date_value"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/transactionBalance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="horizontal"
+        android:layout_below="@id/transactionDate">
+
+        <TextView
+            android:id="@+id/balanceText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:layout_alignParentStart="true"
+            android:text="@string/balance_text"/>
+
+        <TextView
+            android:id="@+id/balanceValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:textSize="22sp"
+            android:layout_alignParentEnd="true"
+            android:text="@string/balance_value"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

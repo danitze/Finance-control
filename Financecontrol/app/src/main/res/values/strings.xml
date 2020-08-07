@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">Finance control</string>
+    <string name="title_home">Home</string>
+    <string name="accept">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="add_amount">adding money</string>
+    <string name="spend_on_transport">spending on transport</string>
+    <string name="spend_on_nutrition">spending on nutrition</string>
+    <string name="spend_on_purchases">spending on purchases</string>
+    <string name="spend_on_recreation">spending on recreation</string>
+    <string name="spend_on_real_estate">spending on real estate</string>
+    <string name="amount">%1$s UAH</string>
+    <string name="transport">transport\n%1$s UAH</string>
+    <string name="nutrition">nutrition\n%1$s UAH</string>
+    <string name="purchases">purchases\n%1$s UAH</string>
+    <string name="recreation">recreation\n%1$s UAH</string>
+    <string name="real_estate">real estate\n%1$s UAH</string>
+    <string name="money_description">money description</string>
+    <string name="money_amount">money amount</string>
+    <string name="null_edit_text_error">amount or description is empty</string>
+    <string name="lack_of_money_error">you do not have enough money</string>
+    <string name="wrong_money_sum">wrong money sum</string>
+    <string name="title_transactions">Transactions</string>
+    <string name="title_stats">Stats</string>
+    <string name="transaction_text">%1$s UAH</string>
+    <string name="description_text">%1$s</string>
+    <string name="date_text">Date:</string>
+    <string name="date_value">%1$s</string>
+    <string name="balance_text">Balance:</string>
+    <string name="balance_value">%1$s UAH</string>
+</resources>
