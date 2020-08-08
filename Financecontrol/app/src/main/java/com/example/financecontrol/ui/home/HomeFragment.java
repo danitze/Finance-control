@@ -23,6 +23,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.financecontrol.DBHelper;
+import com.example.financecontrol.FileOperations;
 import com.example.financecontrol.MainActivity;
 import com.example.financecontrol.R;
 
@@ -42,7 +43,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class HomeFragment extends Fragment implements View.OnClickListener {
 
     DecimalFormat decimalFormat = new DecimalFormat("#.##");
-    final int numberOfForms = 6;
+    public final static int numberOfForms = 6;
 
     final int AMOUNT_ID = 0;
     final int TRANSPORT_ID = 1;
@@ -50,8 +51,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     final int PURCHASES_ID = 3;
     final int RECREATION_ID = 4;
     final int REAL_ESTATE_ID = 5;
-
-    final String[] fileNames = new String[] {"Amount", "Transport", "Nutrition", "Purchases", "Recreation", "Real_estate"};
     final int[] titles = new int[] {R.string.add_amount, R.string.spend_on_transport, R.string.spend_on_nutrition, R.string.spend_on_purchases, R.string.spend_on_recreation, R.string.spend_on_real_estate};
     final int[] formNames = new int[] {R.string.amount, R.string.transport, R.string.nutrition, R.string.purchases, R.string.recreation, R.string.real_estate};
     BigDecimal[] values = new BigDecimal[numberOfForms];
@@ -59,11 +58,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     DBHelper dbHelper;
 
+    FileOperations fileOperations;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         dbHelper = new DBHelper(this.getActivity());
         textViews = new TextView[] {root.findViewById(R.id.amountText), root.findViewById(R.id.transportText), root.findViewById(R.id.nutritionText), root.findViewById(R.id.purchasesText), root.findViewById(R.id.recreationText), root.findViewById(R.id.realEstateText)};
+        fileOperations = new FileOperations(getContext());
         setScreenNumbers();
         return root;
     }
@@ -118,7 +119,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                             if(formId == AMOUNT_ID) {
                                 values[AMOUNT_ID] = values[AMOUNT_ID].add(new BigDecimal(amountEditText.getText().toString()));
                                 textViews[AMOUNT_ID].setText(String.valueOf(decimalFormat.format(values[AMOUNT_ID])));
-                                saveData(AMOUNT_ID);
+                                fileOperations.saveData(AMOUNT_ID, getContext());
                                 contentValues.put(DBHelper.KEY_OPERATION_AMOUNT, amountEditText.getText().toString());
                                 contentValues.put(DBHelper.KEY_OPERATION_DESCRIPTION, descriptionEditText.getText().toString());
                                 contentValues.put(DBHelper.KEY_DATE, System.currentTimeMillis() / 1000L);
@@ -134,8 +135,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                                     values[AMOUNT_ID] = values[AMOUNT_ID].subtract(new BigDecimal(amountEditText.getText().toString()));
                                     textViews[formId].setText(getString(formNames[formId], decimalFormat.format(values[formId])));
                                     textViews[AMOUNT_ID].setText(String.valueOf(decimalFormat.format(values[AMOUNT_ID])));
-                                    saveData(formId);
-                                    saveData(AMOUNT_ID);
+                                    fileOperations.saveData(formId, getContext());
+                                    fileOperations.saveData(AMOUNT_ID, getContext());
                                     contentValues.put(DBHelper.KEY_OPERATION_AMOUNT, "-" + amountEditText.getText().toString());
                                     contentValues.put(DBHelper.KEY_OPERATION_DESCRIPTION, descriptionEditText.getText().toString());
                                     contentValues.put(DBHelper.KEY_DATE, System.currentTimeMillis() / 1000L);
@@ -155,36 +156,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         return builder.create();
     }
 
-    public void saveData(int id) {
-        try {
-            BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(this.getContext().openFileOutput(fileNames[id], MODE_PRIVATE)));
-            bufferedWriter.write(String.valueOf(values[id]));
-            bufferedWriter.close();
-        } catch (FileNotFoundException e) {
-            new File(fileNames[id]);
-            saveData(id);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    public void getData(int id) {
-        try {
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(this.getContext().openFileInput(fileNames[id])));
-            values[id] = new BigDecimal(bufferedReader.readLine());
-        } catch (FileNotFoundException e) {
-            new File(fileNames[id]);
-            values[id] = new BigDecimal(0);
-            saveData(id);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void setScreenNumbers() {
+        values = fileOperations.getValues();
         for(int i = 0; i < numberOfForms; i++) {
-            getData(i);
             textViews[i].setText(getString(formNames[i], decimalFormat.format(values[i])));
             textViews[i].setOnClickListener(this);
         }

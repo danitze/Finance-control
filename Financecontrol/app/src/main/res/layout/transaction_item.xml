@@ -13,7 +13,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-        android:textSize="30sp"
+        android:textSize="28sp"
         android:text="@string/transaction_text"/>
 
     <TextView
@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/transactionAmount"
-        android:textSize="22sp"
+        android:textSize="20sp"
         android:layout_margin="8dp"
         android:text="@string/description_text"/>
 
@@ -39,7 +39,7 @@
             android:id="@+id/dateText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="22sp"
+            android:textSize="20sp"
             android:layout_alignParentStart="true"
             android:text="@string/date_text"/>
 
@@ -48,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="end"
-            android:textSize="22sp"
+            android:textSize="20sp"
             android:layout_alignParentEnd="true"
             android:text="@string/date_value"/>
 
@@ -68,7 +68,7 @@
             android:id="@+id/balanceText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="22sp"
+            android:textSize="20sp"
             android:layout_alignParentStart="true"
             android:text="@string/balance_text"/>
 
@@ -77,10 +77,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="end"
-            android:textSize="22sp"
+            android:textSize="20sp"
             android:layout_alignParentEnd="true"
             android:text="@string/balance_value"/>
 
     </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/colorGrey"
+        android:layout_below="@id/transactionBalance"/>
 
 </RelativeLayout>

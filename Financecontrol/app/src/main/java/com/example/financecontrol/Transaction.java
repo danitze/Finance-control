@@ -12,7 +12,7 @@ public class Transaction {
     private int date;
     private String balance;
 
-    public Transaction(String amount, String description, int date, String balance) {
+    private Transaction(String amount, String description, int date, String balance) {
         this.amount = amount;
         this.description = description;
         this.date = date;
