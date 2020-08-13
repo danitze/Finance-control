@@ -109,10 +109,11 @@ public class Data {
                 values[id] = new BigDecimal(0);
                 WritingThread writingThread = new WritingThread(id);
                 new Thread(writingThread).start();
+                return new BigDecimal(0);
             } catch (IOException e) {
                 e.printStackTrace();
+                return new BigDecimal(0);
             }
-            return null;
         }
     }
 

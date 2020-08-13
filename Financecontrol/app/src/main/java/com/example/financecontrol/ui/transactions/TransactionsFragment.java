@@ -32,6 +32,7 @@ public class TransactionsFragment extends Fragment {
 
     private void loadTransactions() {
         transactionsAdapter.setTransactionsList(Transaction.getTransactions(new DBHelper(getContext())));
+        transactionsRecyclerView.getLayoutManager().scrollToPosition(transactionsAdapter.getItemCount() - 1);
     }
 
     private void initRecyclerView() {
