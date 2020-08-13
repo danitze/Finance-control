@@ -1,7 +1,5 @@
 package com.example.financecontrol;
 
-import android.content.res.Resources;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,15 +9,13 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.financecontrol.ui.home.HomeFragment;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
 public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapter.TransactionsViewHolder>{
-    private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    private static final String DATE_FORMAT = "dd.MM.yyyy HH:mm:ss";
     private List<Transaction> transactionsList;
 
     @NonNull
@@ -66,6 +62,13 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
             dateValue.setText(itemView.getResources().getString(R.string.date_value, dateFormat(transaction.getDate())));
             balanceValue.setText(itemView.getResources().getString(R.string.balance_value, transaction.getBalance()));
         }
+
+        private String dateFormat(int unixTime) {
+            Date date = new Date(unixTime * 1000L);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
+            simpleDateFormat.setTimeZone(TimeZone.getDefault());
+            return simpleDateFormat.format(date);
+        }
     }
 
     public void setTransactionsList(List<Transaction> transactions) {
@@ -81,13 +84,6 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
     public void clearTransactions() {
         this.transactionsList.clear();
         notifyDataSetChanged();
-    }
-
-    public String dateFormat(int unixTime) {
-        Date date = new Date(unixTime * 1000L);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
-        simpleDateFormat.setTimeZone(TimeZone.getDefault());
-        return simpleDateFormat.format(date);
     }
 
 }

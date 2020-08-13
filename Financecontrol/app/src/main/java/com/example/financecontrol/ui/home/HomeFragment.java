@@ -1,26 +1,17 @@
 package com.example.financecontrol.ui.home;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.ContentValues;
-import android.content.DialogInterface;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-
 import com.example.financecontrol.DBHelper;
 import com.example.financecontrol.Data;
 import com.example.financecontrol.DialogCreator;
 import com.example.financecontrol.R;
-
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.DecimalFormat;

@@ -10,10 +10,6 @@ import android.view.LayoutInflater;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.example.financecontrol.DBHelper;
-import com.example.financecontrol.Data;
-import com.example.financecontrol.R;
 import com.example.financecontrol.ui.home.HomeFragment;
 
 import java.math.BigDecimal;
@@ -63,7 +59,7 @@ public class DialogCreator {
                             if(formId == HomeFragment.AMOUNT_ID) {
                                 data.setValue(HomeFragment.AMOUNT_ID, data.getValue(HomeFragment.AMOUNT_ID).add(new BigDecimal(amountEditText.getText().toString())));
                                 textViews[HomeFragment.AMOUNT_ID].setText(String.valueOf(decimalFormat.format(data.getValue(HomeFragment.AMOUNT_ID))));
-                                data.saveData(HomeFragment.AMOUNT_ID, context);
+                                data.saveData(HomeFragment.AMOUNT_ID);
                                 contentValues.put(DBHelper.KEY_OPERATION_AMOUNT, amountEditText.getText().toString());
                                 contentValues.put(DBHelper.KEY_OPERATION_DESCRIPTION, descriptionEditText.getText().toString());
                                 contentValues.put(DBHelper.KEY_DATE, System.currentTimeMillis() / 1000L);
@@ -79,8 +75,8 @@ public class DialogCreator {
                                     data.setValue(HomeFragment.AMOUNT_ID, data.getValue(HomeFragment.AMOUNT_ID).subtract(new BigDecimal(amountEditText.getText().toString())));
                                     textViews[formId].setText(context.getString(formNames[formId], decimalFormat.format(data.getValue(formId))));
                                     textViews[HomeFragment.AMOUNT_ID].setText(String.valueOf(decimalFormat.format(data.getValue(HomeFragment.AMOUNT_ID))));
-                                    data.saveData(formId, context);
-                                    data.saveData(HomeFragment.AMOUNT_ID, context);
+                                    data.saveData(formId);
+                                    data.saveData(HomeFragment.AMOUNT_ID);
                                     contentValues.put(DBHelper.KEY_OPERATION_AMOUNT, "-" + amountEditText.getText().toString());
                                     contentValues.put(DBHelper.KEY_OPERATION_DESCRIPTION, descriptionEditText.getText().toString());
                                     contentValues.put(DBHelper.KEY_DATE, System.currentTimeMillis() / 1000L);
